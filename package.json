@@ -1,10 +1,13 @@
 {
-  "name": "command",
+  "name": "calculator",
   "version": "0.0.1",
   "description": "command design pattern in javascript.",
   "main": "index.js",
   "scripts": {
     "test": "mocha spec/unit/*.js"
+  },
+  "bin": {
+    "calc": "index.js"
   },
   "keywords": [
     "command",
