@@ -4,52 +4,56 @@
 const readline = require('readline');
 const rl = readline.createInterface(process.stdin, process.stdout);
 let stuff = new Array();
-let commands = new Array();
 
-//
+// Import our calculator
+let Calculator = require('./command-pattern/Calculator.js');
+let calculator = new Calculator(0); // initialize calculator with value 0.
+
+// Import Useful Commands
 let Command = require('./command-pattern/Command.js');
 let AddCommand = require('./command-pattern/AddCommand.js');
-
+let SubCommand = require('./command-pattern/SubCommand.js');
 
 // Set the prompt
-rl.setPrompt('command-pattern> ');
+rl.setPrompt('cmd> ');
 rl.prompt();
 
-// Setup pattern
-
 rl.on('line', (line) => {
-
   // Set the input to be an array.
   let input = line.trim().split(" ");
 
   // remove the command from the input.
   let command = input.shift();
 
+  // Define the operators.
+  let op = Number.parseInt(input[0]);
+
   switch (command) {
-    // close it all down.
     case 'done':
+      // close it all down.
       rl.close();
       break;
-    // add things to the array.
     case 'add':
-      let add = new AddCommand(stuff, input[0]);
-      commands.push(add);
-      add.execute();
-      console.log(stuff);
+      // Add Ops things to the array.
+      if (op) {
+        calculator.execute(new AddCommand(op, calculator.value));
+      }
+      break;
+    case 'sub':
+      // subtracts ops.
+      if (op) {
+        calculator.execute(new SubCommand(op, calculator.value));
+      }
       break;
     case 'undo':
-      let undo = commands.pop();
-      if(undo == undefined){
-        console.log("Nothing left to undo!");
-        break;
-      }
-      undo.unexecute();
-      console.log(stuff);
+      // Undo the last command.
+      calculator.unexecute();
       break;
     default:
       console.log("I don't know tht one!");
       break;
   }
+  console.log("=" + calculator.value);
   rl.prompt();
 }).on('close', () => {
   console.log('Have a great day!');

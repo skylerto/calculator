@@ -6,9 +6,8 @@
  */
 module.exports = class Command {
 
-  constructor(op1, op2, value) {
-    this.op1 = op1;
-    this.op2 = op2;
+  constructor(op, value) {
+    this.op = op;
     this.value = value;
   }
 
